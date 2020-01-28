@@ -1,9 +1,13 @@
-import 'package:flutter/material.dart';
 import 'package:card_settings/card_settings.dart';
+import 'package:flutter/material.dart';
 import 'package:myapp/models/wish.dart';
 import 'package:myapp/utils/database_helper.dart';
 
 class AddWish extends StatelessWidget {
+  final Wish _wishModel;
+
+  AddWish(this._wishModel);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +21,7 @@ class AddWish extends StatelessWidget {
       ),
       body: Material(
         color: Color.fromRGBO(58, 66, 86, 1.0),
-        child: WishForm(),
+        child: WishForm(this._wishModel),
         elevation: 8.0,
       ),
     );
@@ -25,14 +29,21 @@ class AddWish extends StatelessWidget {
 }
 
 class WishForm extends StatefulWidget {
+  final Wish _wishModel;
+
+  WishForm(this._wishModel);
+
   @override
   _WishFormState createState() {
-    return new _WishFormState();
+    return new _WishFormState(_wishModel);
   }
 }
 
 class _WishFormState extends State<WishForm> {
-  final _wishModel = new Wish();
+  final Wish _wishModel;
+
+  _WishFormState(this._wishModel);
+
   DatabaseHelper dbHelper = DatabaseHelper();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   FocusNode focusTitleNode;
@@ -63,11 +74,11 @@ class _WishFormState extends State<WishForm> {
             ),
             child: CardSettingsHeader(
               label: 'Wish',
-              color: Colors.white,
+              //color: Colors.white,
             ),
           ),
           CardSettingsText(
-            style: TextStyle(color: Colors.white),
+            // style: TextStyle(color: Colors.white),
             autofocus: true,
             label: 'Title',
             initialValue: _wishModel.title,
@@ -84,7 +95,7 @@ class _WishFormState extends State<WishForm> {
             label: 'Time Specific?',
             initialValue: _wishModel.isTimeBound,
             onChanged: (value) =>
-                setState(() => _wishModel.isTimeBound = value),
+                setState(() => _wishModel.isTimeBound = value ? true : false),
           ),
           CardSettingsDatePicker(
             label: 'Target Date',
@@ -104,8 +115,8 @@ class _WishFormState extends State<WishForm> {
           CardSettingsSwitch(
             label: 'Budget?',
             initialValue: _wishModel.isBudgetNeeded,
-            onChanged: (value) =>
-                setState(() => _wishModel.isBudgetNeeded = value),
+            onChanged: (value) => setState(
+                () => _wishModel.isBudgetNeeded = value ? true : false),
           ),
           CardSettingsCurrency(
             label: 'Budget',
@@ -141,6 +152,7 @@ class _WishFormState extends State<WishForm> {
                   heroTag: null,
                   onPressed: () {
                     debugPrint("discard key pressed");
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
                   },
                   icon: Icon(Icons.delete),
                   label: Text(
@@ -151,6 +163,7 @@ class _WishFormState extends State<WishForm> {
                 FloatingActionButton.extended(
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
+                      _wishModel.status = "IN_PROGRESS";
                       debugPrint(
                           'validation complete and going to save the wish');
                       dbHelper.insertWish(_wishModel).then((id) {

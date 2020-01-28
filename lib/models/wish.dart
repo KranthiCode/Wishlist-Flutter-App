@@ -6,15 +6,18 @@ class Wish {
   bool isBudgetNeeded;
   num budget;
   int priority;
+  String status;
 
-  Wish(
-      {this.id,
-      this.title = "",
-      this.isTimeBound = false,
-      this.date = '',
-      this.isBudgetNeeded =  false,
-      this.budget = 0.0,
-      this.priority = 0});
+  Wish({
+    this.id,
+    this.title = "",
+    this.isTimeBound = false,
+    this.date,
+    this.isBudgetNeeded = false,
+    this.budget = 0.0,
+    this.priority = 0,
+    this.status,
+  });
 
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
@@ -25,15 +28,20 @@ class Wish {
     map['date'] = this.date;
     map['priority'] = this.priority;
     map['budget'] = this.budget;
+    map['isBudgetNeeded'] = this.isBudgetNeeded;
+    map['isTimeBound'] = this.isTimeBound;
+    map['status'] = this.status;
 
     return map;
   }
 
-  Wish fromMapObject(Map<String, dynamic> map) {
+  Wish.fromMapObject(Map<String, dynamic> map) {
     this.id = map['id'];
     this.title = map['title'];
     this.budget = map['budget'];
     this.priority = map['priority'];
     this.date = map['date'];
+    this.isTimeBound = map['isTimeBound'];
+    this.isBudgetNeeded = map['isBudgetNeeded'];
   }
 }

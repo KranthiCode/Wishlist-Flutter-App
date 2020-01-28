@@ -3,6 +3,8 @@ import 'package:myapp/app_screens/add_wish.dart';
 import 'package:myapp/models/wish.dart';
 import 'package:myapp/utils/database_helper.dart';
 
+import 'edit_wish.dart';
+
 class InProgressList extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -41,6 +43,14 @@ class InProgressListState extends State<InProgressList> {
                   color: Color.fromRGBO(64, 75, 96, .9),
                 ),
                 child: ListTile(
+                  onTap: () {
+                    print(
+                        "Wish id clicked : " + wishesList[index].id.toString());
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return EditWish(wishesList[index]);
+                    }));
+                  },
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                   leading: Container(
@@ -58,9 +68,9 @@ class InProgressListState extends State<InProgressList> {
                   subtitle: Text(
                     wishesList[index].title +
                         " " +
-                        wishesList[index].priority.toString() +
+                        wishesList[index].isTimeBound.toString() +
                         " " +
-                        wishesList[index].budget.toString() +
+                        wishesList[index].isBudgetNeeded.toString() +
                         " " +
                         wishesList[index].date,
                     style: TextStyle(color: Colors.white),
@@ -77,7 +87,7 @@ class InProgressListState extends State<InProgressList> {
         backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return AddWish();
+            return AddWish(new Wish());
           }));
         },
         child: Icon(Icons.add),
@@ -88,7 +98,7 @@ class InProgressListState extends State<InProgressList> {
   void updateInprogressList() {
     dbHelper.getAllWishesList().then((wishesList) {
       setState(() {
-        debugPrint('Wishes list fetched...');
+        debugPrint('Inprogress Wishes list fetched...');
         print(wishesList.length);
         this.wishesList = wishesList;
       });

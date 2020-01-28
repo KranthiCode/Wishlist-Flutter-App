@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/utils/database_helper.dart';
 
+import '../models/wish.dart';
 import 'add_wish.dart';
 
-class CompletedList extends StatelessWidget {
+class CompletedList extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return CompletedListStae();
+  }
+}
+
+class CompletedListStae extends State<CompletedList> {
+  List<Wish> wishesList;
+  DatabaseHelper dbHelper = DatabaseHelper();
+
   @override
   Widget build(BuildContext context) {
     return _generateListView(context);
@@ -10,19 +22,17 @@ class CompletedList extends StatelessWidget {
 
   Widget _generateListView(BuildContext context) {
     //some data
-    final europeanCountries = [
-      'Bosnia and Herzegovina',
-      'Bulgaria',
-      'Croatia',
-    ];
-    //Some todo
+    if (wishesList == null) {
+      wishesList = List<Wish>();
+      _updateCompletedList();
+    }
     return Scaffold(
       backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
       body: Material(
         color: Color.fromRGBO(58, 66, 86, 1.0),
         elevation: 8.0,
         child: ListView.builder(
-          itemCount: europeanCountries.length,
+          itemCount: wishesList.length,
           itemBuilder: (context, index) {
             return Card(
               elevation: 8.0,
@@ -33,7 +43,7 @@ class CompletedList extends StatelessWidget {
                 ),
                 child: ListTile(
                   contentPadding:
-                  EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                   leading: Container(
                     padding: EdgeInsets.only(right: 12.0),
                     decoration: new BoxDecoration(
@@ -47,7 +57,7 @@ class CompletedList extends StatelessWidget {
                     style: TextStyle(color: Colors.white),
                   ),
                   subtitle: Text(
-                    europeanCountries[index],
+                    wishesList[index].title,
                     style: TextStyle(color: Colors.white),
                   ),
                   trailing: Icon(Icons.keyboard_arrow_right,
@@ -61,11 +71,21 @@ class CompletedList extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return AddWish();
+            return AddWish(new Wish());
           }));
         },
         child: Icon(Icons.add),
       ),
     );
+  }
+
+  void _updateCompletedList() {
+    dbHelper.getAllCompletedWishesList().then((wishesList) {
+      setState(() {
+        debugPrint('Completed Wishes list fetched...');
+        print(wishesList.length);
+        this.wishesList = wishesList;
+      });
+    });
   }
 }
