@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+
 import './app_screens/home.dart';
 
-void main() => runApp(WishListApp());
-
+// TODO - add splash screen
 class WishListApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -13,3 +13,5 @@ class WishListApp extends StatelessWidget {
     );
   }
 }
+
+void main() => runApp(WishListApp());
