@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'completed_wishes.dart';
 import 'inprogress_wishes.dart';
 import 'profile.dart';
-
 
 class Home extends StatefulWidget {
   @override
@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.1,
-        backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+        backgroundColor: Color.fromRGBO(117, 133, 163, 1.0),
         title: Text("My Wish List"),
         actions: <Widget>[
           IconButton(
@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
       ),
       body: _bottomTabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+        backgroundColor: Color.fromRGBO(117, 133, 163, 1.0),
         onTap: (index) {
           setState(() {
             _currentIndex = index;

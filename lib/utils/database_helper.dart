@@ -104,14 +104,15 @@ class DatabaseHelper {
     return List.generate(maps.length, (i) {
       print("is budget needed: " + maps[i]['$colIsBudgetNeeded']);
       print("is time needed: " + maps[i]['$colIsTimeBound']);
+      print("budget: " + maps[i]['$colBudget'].toString());
       return Wish(
         id: maps[i]['$colId'],
         title: maps[i]['$colTitle'],
         budget: maps[i]['$colBudget'],
         priority: maps[i]['$colPriority'],
         date: maps[i]['$colDate'],
-        isTimeBound: maps[i]['$colIsTimeBound'] == 'true' ? true : false,
-        isBudgetNeeded: maps[i]['$colIsBudgetNeeded'] == 'true' ? true : false,
+        isTimeBound: maps[i]['$colIsTimeBound'] == '1' ? true : false,
+        isBudgetNeeded: maps[i]['$colIsBudgetNeeded'] == '1' ? true : false,
         status: maps[i]['$colStatus'],
       );
     });

@@ -4,7 +4,7 @@ class Wish {
   bool isTimeBound;
   String date;
   bool isBudgetNeeded;
-  num budget;
+  double budget;
   int priority;
   String status;
 

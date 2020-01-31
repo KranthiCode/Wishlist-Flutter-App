@@ -29,9 +29,9 @@ class InProgressListState extends State<InProgressList> {
     }
 
     return Scaffold(
-      backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+      //backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
       body: Material(
-        color: Color.fromRGBO(58, 66, 86, 1.0),
+        color: Color.fromRGBO(194, 201, 214, 1.0),
         child: ListView.builder(
           itemCount: wishesList.length,
           itemBuilder: (context, index) {
@@ -84,7 +84,7 @@ class InProgressListState extends State<InProgressList> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+        //backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return AddWish(new Wish());
